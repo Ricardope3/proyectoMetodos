@@ -8,32 +8,32 @@ for index, row in df.iterrows():
     XAB = int(row['XAB'])
     XBA = int(row['XBA'])
     if(XBA):
-        print('engaged')
+        print('engaged', end=" ")
     else:
         if(XAB):
             if(SHB <=0.3):
-                print('neutral')
+                print('neutral', end=" ")
             else:
-                print('hostil')
+                print('hostil', end=" ")
         else:
             if(SHB <=0.3):
                 if(SHA<=0.4):
-                    print('cooperativo')
+                    print('cooperativo', end=" ")
                 elif(SHA<=0.7):
-                    print('neutral')
+                    print('neutral', end=" ")
                 else:
-                    print('hostil')
+                    print('hostil', end=" ")
             elif(SHB<=0.6):
                 if(SHA<=0.3):
-                    print('cooperativo')
+                    print('cooperativo', end=" ")
                 elif(SHA<=0.6):
-                    print('neutral')
+                    print('neutral', end=" ")
                 else:
-                    print('hostil')
+                    print('hostil', end=" ")
             else:
                 if(SHA<=0.45):
-                    print('neutral')
+                    print('neutral', end=" ")
                 else:
-                    print('cooperativo')
+                    print('cooperativo', end=" ")
 
     
