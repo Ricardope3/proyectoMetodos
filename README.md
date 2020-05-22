@@ -7,7 +7,7 @@
 ## Generar Observaciones
 
 ### Grupo A
-- python3 observacionesA.py > observacionesA.csv
+- `python3 observacionesA.py > observacionesA.csv`
 
 ### Grupo B
-- python3 observacionesB.py > observaciones.csv
+- `python3 observacionesB.py > observaciones.csv`
