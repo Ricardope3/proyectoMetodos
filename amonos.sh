@@ -1,0 +1,1 @@
+python3 modelo.py > output.csv &&python3 observacionesA.py > observacionesA.csv &&python3 observacionesB.py > observacionesB.csv
