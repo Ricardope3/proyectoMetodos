@@ -31,9 +31,12 @@ class MarkovChain {
   }
 }
 
-fs.readFile(path.join(__dirname, "chain.txt"), "utf8", (err, data) => {
+fs.readFile(path.join(__dirname, "markovChainA.txt"), "utf8", (err, data) => {
   if (err) return console.error("Cannot read file");
   const chain = new MarkovChain(data);
-  console.log(chain.currentState);
-  console.log(chain.transition());
+  console.log(Constants.statesNum[chain.currentState]);
+  setInterval(() => {
+    const newState = chain.transition();
+    console.log(Constants.statesNum[newState]);
+  }, 1000);
 });

@@ -2,8 +2,7 @@ const Constants = require("./constants");
 const fs = require("fs");
 const path = require("path");
 
-fs.readFile(path.join(__dirname, "observacionesA.csv"), "utf8", (err, data) => {
-  if (err) return console.error("Cannot read file");
+function generateMarkovChain(data, outputFile) {
   const rawData = data
     .split("\n")
     .map((_) => _.split(" ").map((_) => parseInt(_)));
@@ -47,12 +46,23 @@ fs.readFile(path.join(__dirname, "observacionesA.csv"), "utf8", (err, data) => {
   // Set transition dead to dead as 1
   transitionMatrix[Constants.states.Dead][Constants.states.Dead] = 1;
 
-  const encodedMarkovChain = `${initialVector.join()}
-${transitionMatrix.map((row) => row.join()).join("\n")}`;
+  const encodedMarkovChain = `${initialVector.join()}\n${transitionMatrix
+    .map((row) => row.join())
+    .join("\n")}`;
 
-  fs.writeFile(path.join(__dirname, "chain.txt"), encodedMarkovChain, (err) => {
+  fs.writeFile(path.join(__dirname, outputFile), encodedMarkovChain, (err) => {
     if (err)
       return console.error("Error while writing to markov chain document");
-    console.log("Markov chain document created succesfully");
+    console.log(`Markov chain document ${outputFile} created succesfully`);
   });
+}
+
+fs.readFile(path.join(__dirname, "observacionesA.csv"), "utf8", (err, data) => {
+  if (err) return console.error("Cannot read file");
+  generateMarkovChain(data, "markovChainA.txt");
+});
+
+fs.readFile(path.join(__dirname, "observacionesB.csv"), "utf8", (err, data) => {
+  if (err) return console.error("Cannot read file");
+  generateMarkovChain(data, "markovChainB.txt");
 });
