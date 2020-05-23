@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv ("output.csv",sep=" ")
+df = pd.read_csv("output.csv", sep=" ")
 
 for index, row in df.iterrows():
     SHA = float(row['SHA'])
@@ -8,32 +8,30 @@ for index, row in df.iterrows():
     XAB = int(row['XAB'])
     XBA = int(row['XBA'])
     if(XBA):
-        print('engaged')
+        print('3', end=" ")
     else:
         if(XAB):
-            if(SHB <=0.3):
-                print('neutral')
+            if(SHB <= 0.3):
+                print('1', end=" ")
             else:
-                print('hostil')
+                print('2', end=" ")
         else:
-            if(SHB <=0.3):
-                if(SHA<=0.4):
-                    print('cooperativo')
-                elif(SHA<=0.7):
-                    print('neutral')
+            if(SHB <= 0.3):
+                if(SHA <= 0.4):
+                    print('0', end=" ")
+                elif(SHA <= 0.7):
+                    print('1', end=" ")
                 else:
-                    print('hostil')
-            elif(SHB<=0.6):
-                if(SHA<=0.3):
-                    print('cooperativo')
-                elif(SHA<=0.6):
-                    print('neutral')
+                    print('2', end=" ")
+            elif(SHB <= 0.6):
+                if(SHA <= 0.3):
+                    print('0', end=" ")
+                elif(SHA <= 0.6):
+                    print('1', end=" ")
                 else:
-                    print('hostil')
+                    print('2', end=" ")
             else:
-                if(SHA<=0.45):
-                    print('neutral')
+                if(SHA <= 0.45):
+                    print('1', end=" ")
                 else:
-                    print('cooperativo')
-
-    
+                    print('0', end=" ")
