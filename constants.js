@@ -1,4 +1,11 @@
 module.exports = {
+  states: {
+    "Cooperative": 0,
+    "Neutral": 1,
+    "Hostile": 2,
+    "Engaged": 3,
+    "Dead": 4
+  },
   statesNum: {
     0: "Cooperative",
     1: "Neutral",

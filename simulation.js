@@ -1,48 +1,39 @@
 const Constants = require("./constants");
+const fs = require("fs");
+const path = require("path");
 
 class MarkovChain {
-  constructor() {
-    const sampleData = [
-      [1, 2]
-    ];
-    this.transitionMatrix = Object.keys(Constants.statesNum).map(() => {
-      return new Array(Object.keys(Constants.statesNum).length).fill(0);
-    });
-    this.initialVector = new Array(
-      Object.keys(Constants.statesNum).length
-    ).fill(0);
-    let totalObservations = 0;
-    const totalOccurrences = new Array(
-      Object.keys(Constants.statesNum).length
-    ).fill(0);
+  constructor(encodedChain) {
+    const lines = encodedChain.split("\n");
+    if (lines.length !== Object.keys(Constants.states).length + 1)
+      return console.error("Bad encoded markov chain file");
+    this.initialVector = lines[0].split(",").map((_) => parseFloat(_));
+    this.transitionMatrix = lines
+      .slice(1)
+      .map((_) => _.split(",").map((_) => parseFloat(_)));
+    this.currentState = this._getStateFromProbabilities(this.initialVector);
+  }
 
-    sampleData.forEach((observation) => {
-      if (observation.length > 0) {
-        totalObservations++;
-        this.initialVector[observation[0]]++;
+  _getStateFromProbabilities(probabilityRow) {
+    const rand = Math.random();
+    let accumProbability = 0;
+    for (let state in probabilityRow) {
+      accumProbability += probabilityRow[state];
+      if (rand <= accumProbability) return state;
+    }
+  }
 
-        for (let i = 0; i < observation.length - 1; i++) {
-          const iState = observation[i];
-          const jState = observation[i + 1];
-          this.transitionMatrix[iState][jState]++;
-          totalOccurrences[iState]++;
-        }
-      }
-    });
-
-    this.initialVector = this.initialVector.map(
-      (occurrences) => occurrences / totalObservations
+  transition() {
+    this.currentState = this._getStateFromProbabilities(
+      this.transitionMatrix[this.currentState]
     );
-    this.transitionMatrix = this.transitionMatrix.map(
-      (stateTransitions, iState) =>
-        stateTransitions.map((occurrences) =>
-          totalOccurrences[iState] === 0
-            ? 0
-            : occurrences / totalOccurrences[iState]
-        )
-    );
-    console.log(this.transitionMatrix);
+    return this.currentState;
   }
 }
 
-new MarkovChain();
+fs.readFile(path.join(__dirname, "chain.txt"), "utf8", (err, data) => {
+  if (err) return console.error("Cannot read file");
+  const chain = new MarkovChain(data);
+  console.log(chain.currentState);
+  console.log(chain.transition());
+});
