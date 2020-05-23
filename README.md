@@ -14,4 +14,4 @@
 
 ## Hacer 100 simulaciones
 
-- `python3 generarSimulaciones.py` 
+- `python3 generarSimulaciones.py`

@@ -68,7 +68,7 @@ def SHX(prevSHX, PHX, gamma):
 
 
 def getOutputs():
-    print("SHA SHB XAB XBA DIAp DIBp")
+    print("Period SHA SHB XAB XBA DIAp DIBp")
     prevDIA = 0.1
     prevDIB = 0.1
     prevPHA = 0.1
@@ -83,6 +83,8 @@ def getOutputs():
     avgXAB = 0
     avgXBA = 0
 
+    totalXAB = 0
+    totalXBA = 0
     for i in range(PERIODS):
         GRA = GRX(MEANA)
         GRB = GRX(MEANB)
@@ -113,17 +115,17 @@ def getOutputs():
 
         avgSHA += SHA
         avgSHB += SHB
-        avgXAB += XAB
-        avgXBA += XBA
+        totalXAB += XAB
+        totalXBA += XBA
 
         if(DIApercent < 0.01):
-            print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i, i)
+            # print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i, i)
             break
         if(DIBpercent < 0.01):
-            print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i, i)
+            # print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i, i)
             break
 
-        print(SHA,SHB,XAB,XBA,DIApercent,DIBpercent)
+        print(i,SHA,SHB,totalXAB,totalXBA,DIApercent,DIBpercent)
 
         prevDIA = DIA
         prevDIB = DIB
