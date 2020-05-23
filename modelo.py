@@ -4,7 +4,7 @@ import random
 import matplotlib.pyplot as plt
 
 GAMMA = 0.95
-PERIODS = 10000
+PERIODS = 1000
 MEAN = 0.04
 STDV = MEAN/2
 CASE = 0
@@ -68,15 +68,15 @@ def SHX(prevSHX, PHX, gamma):
 
 
 def getOutputs():
-    # print("SHA SHB XAB XBA")
+    print("SHA SHB XAB XBA DIAp DIBp")
     prevDIA = 0.1
     prevDIB = 0.1
     prevPHA = 0.1
     prevPHB = 0.1
     prevXAB = 0
     prevXBA = 0
-    prevSHA = 0.1
-    prevSHB = 0.1
+    prevSHA = 0.2
+    prevSHB = 0.2
 
     avgSHA = 0
     avgSHB = 0
@@ -105,6 +105,7 @@ def getOutputs():
 
         XAB = XXY(PHA)
         XBA = 0
+        # XBA = XXY(PHB)
         SHA = SHX(prevSHA, PHA, GAMMA)
         SHB = SHX(prevSHB, PHB, GAMMA)
 
@@ -122,7 +123,8 @@ def getOutputs():
             print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i, i)
             break
 
-        # print(SHA,SHB,XAB,XBA)
+        print(SHA,SHB,XAB,XBA,DIApercent,DIBpercent)
+
         prevDIA = DIA
         prevDIB = DIB
         prevPHA = PHA
