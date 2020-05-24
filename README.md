@@ -12,6 +12,6 @@
 ### Grupo B
 - `python3 observacionesB.py > observacionesB.csv`
 
-## Todo de un jalon
+## Hacer 100 simulaciones
 
-- `./amonos.sh` 
+- `python3 generarSimulaciones.py`

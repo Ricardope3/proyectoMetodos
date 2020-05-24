@@ -1,81 +1,93 @@
 import numpy as np
 import math
 import random
+import matplotlib.pyplot as plt
 
-GAMMA = 0.90
-SAMPLE_SIZE = 2500000
-SAMPLE = lista = np.random.random_sample(SAMPLE_SIZE)
-PERIODS = 100000
+GAMMA = 0.95
+PERIODS = 1000
+MEAN = 0.04
+STDV = MEAN/2
+CASE = 0
+MEANA = 0.04
+MEANB = 0.12
 
-def normalize(lista):
-    for i in range(0, len(lista)-1, 2):
-        r1 = lista[i]
-        r2 = lista[i+1]
-        x1 = math.sqrt(math.log(r1, math.e)*-1)*math.cos(100*math.pi*r2)+4
-        x2 = math.sqrt(math.log(r1, math.e)*-100)*math.sin(1.12*math.pi*r2)+4
-        lista[i] = x1
-        lista[i+1] = x2
-    minimo = min(lista)
-    normalizada = (lista-minimo)/(max(lista)-minimo)
-    return normalizada
 
-def GRX(sample):
-    index = random.randint(0, len(sample)-1)
-    return sample[index]
+def GRX(mean):
+    return np.random.normal(loc=mean, scale=mean/2)
+
 
 def DIX(prevDIX, GRX):
     return (prevDIX * (1+GRX))
 
+
 def DIXpercentage(DIX, DIY):
     return DIX / (DIX + DIY)
+
 
 def GDX(DIXpercentage, DIYpercentage, case=1):
     if(case == 0):
         return max(0, (DIYpercentage-DIXpercentage))
     elif(case == 1):
         return abs(DIYpercentage-DIXpercentage)
+    elif(case == 2):
+        mean = DIXpercentage-DIYpercentage
+        stdv = mean/2
+        return np.random.normal(loc=mean, scale=abs(stdv))
+
 
 def getWeigths():
     beta = random.random()
-    delta = random.random()
-    alpha = 1 - beta - delta
+    alpha = random.random()
+    delta = 1 - beta - alpha
     return [alpha, beta, delta]
 
 
 def PHX(prevPHA, prevXBA, GDX):
     res = -1
-    while(res < 0 or res > 1):
-        weights = getWeigths()
-        alpha = weights[0]
-        beta = weights[1]
-        delta = weights[2]
-        res = alpha*prevPHA + beta*prevXBA + delta*GDX
+    # while(res < 0 or res > 1):
+    #     weights = getWeigths()
+    #     alpha = weights[0]
+    #     beta = weights[1]
+    #     delta = weights[2]
+    #     res = alpha*prevPHA + beta*prevXBA + delta*GDX
+    res = 0.33*prevPHA + 0.33*prevXBA + 0.33*GDX
     return res
 
+
 def XXY(PHX):
-    if(random.random() < PHX):
+    r = random.random()
+    if(r > PHX):
         return 0
-    else:
+    elif(r < PHX):
         return 1
+    return 0
+
 
 def SHX(prevSHX, PHX, gamma):
     return gamma*prevSHX + (1-gamma)*PHX
 
+
 def getOutputs():
-    print("SHA","SHB","XAB","XBA")
-    normalized = normalize(SAMPLE)
-    case = 1
-    prevDIA = 0.5
-    prevDIB = 0.5
-    prevPHA = 0.2
-    prevPHB = 0.2
+    print("Period SHA SHB XAB XBA DIAp DIBp")
+    prevDIA = 0.1
+    prevDIB = 0.1
+    prevPHA = 0.1
+    prevPHB = 0.1
     prevXAB = 0
     prevXBA = 0
-    prevSHA = 0.1
-    prevSHB = 0.1
+    prevSHA = 0.2
+    prevSHB = 0.2
+
+    avgSHA = 0
+    avgSHB = 0
+    avgXAB = 0
+    avgXBA = 0
+
+    totalXAB = 0
+    totalXBA = 0
     for i in range(PERIODS):
-        GRA = GRX(normalized)
-        GRB = GRX(normalized)
+        GRA = GRX(MEANA)
+        GRB = GRX(MEANB)
 
         DIA = DIX(prevDIA, GRA)
         DIB = DIX(prevDIB, GRB)
@@ -87,22 +99,33 @@ def getOutputs():
         DIApercent = DIXpercentage(DIA, DIB)
         DIBpercent = DIXpercentage(DIB, DIA)
 
-        if(DIApercent < 0.0001):
-            return
-        if(DIBpercent < 0.0001):
-            return
-
-        GDA = GDX(DIApercent, DIBpercent, case)
-        GDB = GDX(DIBpercent, DIApercent, case)
+        GDA = GDX(DIApercent, DIBpercent, CASE)
+        GDB = GDX(DIBpercent, DIApercent, CASE)
 
         PHA = PHX(prevPHA, prevXBA, GDA)
         PHB = PHX(prevPHB, prevXAB, GDB)
 
         XAB = XXY(PHA)
-        XBA = XXY(PHB)
-
+        XBA = 0
+        # XBA = XXY(PHB)
         SHA = SHX(prevSHA, PHA, GAMMA)
         SHB = SHX(prevSHB, PHB, GAMMA)
+
+        # print(PHA, DIApercent, XAB)
+
+        avgSHA += SHA
+        avgSHB += SHB
+        totalXAB += XAB
+        totalXBA += XBA
+
+        if(DIApercent < 0.01):
+            # print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i, i)
+            break
+        if(DIBpercent < 0.01):
+            # print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i, i)
+            break
+
+        print(i,SHA,SHB,totalXAB,totalXBA,DIApercent,DIBpercent)
 
         prevDIA = DIA
         prevDIB = DIB
@@ -112,8 +135,6 @@ def getOutputs():
         prevXBA = XBA
         prevSHA = SHA
         prevSHB = SHB
-        
-        print(SHA, SHB, XAB, XBA)
 
 
 getOutputs()

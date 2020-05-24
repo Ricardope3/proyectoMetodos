@@ -38,5 +38,5 @@ fs.readFile(path.join(__dirname, "markovChainA.txt"), "utf8", (err, data) => {
   setInterval(() => {
     const newState = chain.transition();
     console.log(Constants.statesNum[newState]);
-  }, 1000);
+  }, 0);
 });
