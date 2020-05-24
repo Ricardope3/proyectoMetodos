@@ -3,7 +3,10 @@
 </template>
 
 <script>
-import { PerspectiveCamera, WebGLRenderer, Scene } from 'three';
+import { PerspectiveCamera, WebGLRenderer } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+import Scenography from '../scenography';
 
 export default {
   name: 'PaintCanvas',
@@ -34,9 +37,9 @@ export default {
         100
       );
       this.camera.position.z = 15;
-      this.camera.position.y = 8;
+      this.camera.position.y = 2;
 
-      this.scene = new Scene();
+      this.scene = new Scenography();
 
       this.renderer = new WebGLRenderer({ antialias: true });
       this.renderer.setSize(
@@ -44,11 +47,14 @@ export default {
         this.container.clientHeight
       );
 
+      new OrbitControls(this.camera, this.renderer.domElement);
+
       this.container.appendChild(this.renderer.domElement);
     },
 
     animate() {
       requestAnimationFrame(this.animate);
+      this.scene.animate();
       this.renderer.render(this.scene, this.camera);
     }
   }
