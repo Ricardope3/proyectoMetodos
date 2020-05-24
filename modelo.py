@@ -3,13 +3,13 @@ import math
 import random
 import matplotlib.pyplot as plt
 
-GAMMA = 0.95
+GAMMA = 0.99
 PERIODS = 1000
 MEAN = 0.04
 STDV = MEAN/2
 CASE = 0
 MEANA = 0.04
-MEANB = 0.12
+MEANB = 0.04
 
 
 def GRX(mean):
@@ -44,13 +44,13 @@ def getWeigths():
 
 def PHX(prevPHA, prevXBA, GDX):
     res = -1
-    # while(res < 0 or res > 1):
-    #     weights = getWeigths()
-    #     alpha = weights[0]
-    #     beta = weights[1]
-    #     delta = weights[2]
-    #     res = alpha*prevPHA + beta*prevXBA + delta*GDX
-    res = 0.33*prevPHA + 0.33*prevXBA + 0.33*GDX
+    while(res < 0 or res > 1):
+        weights = getWeigths()
+        alpha = weights[0]
+        beta = weights[1]
+        delta = weights[2]
+        res = alpha*prevPHA + beta*prevXBA + delta*GDX
+    # res = 0.33*prevPHA + 0.33*prevXBA + 0.33*GDX
     return res
 
 
@@ -68,23 +68,23 @@ def SHX(prevSHX, PHX, gamma):
 
 
 def getOutputs():
-    print("Period SHA SHB XAB XBA DIAp DIBp")
+    print("SHA SHB XAB XBA")
     prevDIA = 0.1
     prevDIB = 0.1
     prevPHA = 0.1
     prevPHB = 0.1
     prevXAB = 0
     prevXBA = 0
-    prevSHA = 0.2
-    prevSHB = 0.2
+    prevSHA = 0.1
+    prevSHB = 0.1
 
-    avgSHA = 0
-    avgSHB = 0
-    avgXAB = 0
-    avgXBA = 0
+    # avgSHA = 0
+    # avgSHB = 0
+    # avgXAB = 0
+    # avgXBA = 0
 
-    totalXAB = 0
-    totalXBA = 0
+    # totalXAB = 0
+    # totalXBA = 0
     for i in range(PERIODS):
         GRA = GRX(MEANA)
         GRB = GRX(MEANB)
@@ -106,17 +106,17 @@ def getOutputs():
         PHB = PHX(prevPHB, prevXAB, GDB)
 
         XAB = XXY(PHA)
-        XBA = 0
-        # XBA = XXY(PHB)
+        XBA = XXY(PHB)
         SHA = SHX(prevSHA, PHA, GAMMA)
         SHB = SHX(prevSHB, PHB, GAMMA)
 
-        # print(PHA, DIApercent, XAB)
+        print(SHA,SHB,XAB,XBA)
 
-        avgSHA += SHA
-        avgSHB += SHB
-        totalXAB += XAB
-        totalXBA += XBA
+
+        # avgSHA += SHA
+        # avgSHB += SHB
+        # totalXAB += XAB
+        # totalXBA += XBA
 
         if(DIApercent < 0.01):
             # print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i, i)
@@ -125,7 +125,6 @@ def getOutputs():
             # print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i, i)
             break
 
-        print(i,SHA,SHB,totalXAB,totalXBA,DIApercent,DIBpercent)
 
         prevDIA = DIA
         prevDIB = DIB

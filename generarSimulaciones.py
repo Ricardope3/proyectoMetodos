@@ -1,6 +1,6 @@
 import os
 
-SIMULACIONES = 50
+SIMULACIONES = 60
 ARCHIVOA = 'observacionesA.py'
 ARCHIVOB = 'observacionesB.py'
 OUTPUTA = "observacionesA.csv"
