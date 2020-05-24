@@ -6,7 +6,8 @@ import {
   MeshBasicMaterial,
   Mesh,
   TextureLoader,
-  Vector3
+  Vector3,
+  Color
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Villager from './villager';
@@ -20,6 +21,8 @@ class Scenography extends Scene {
     this.add(light);
     this.add(dirLight);
 
+    this.background = new Color(0xff87ceeb);
+
     const terrain = new Mesh(
       new PlaneGeometry(90, 30, 1),
       new MeshBasicMaterial({
@@ -31,6 +34,16 @@ class Scenography extends Scene {
     this.add(terrain);
 
     this.loadScene();
+  }
+
+  startSimulation({ chainA, chainB }) {
+    this.villagerA.startSimulation(chainA);
+    this.villagerB.startSimulation(chainB);
+  }
+
+  stopSimulation() {
+    this.villagerA.stopSimulation();
+    this.villagerB.stopSimulation();
   }
 
   async loadScene() {

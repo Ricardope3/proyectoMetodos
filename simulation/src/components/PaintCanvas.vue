@@ -56,6 +56,14 @@ export default {
       requestAnimationFrame(this.animate);
       this.scene.animate();
       this.renderer.render(this.scene, this.camera);
+    },
+
+    startSimulation(chains) {
+      this.scene.startSimulation(chains);
+    },
+
+    stopSimulation() {
+      this.scene.stopSimulation();
     }
   }
 };

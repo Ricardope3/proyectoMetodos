@@ -1,4 +1,5 @@
 import { Group, Vector3 } from 'three';
+import Constants from './constants';
 
 class Villager extends Group {
   constructor(villager, position) {
@@ -17,11 +18,23 @@ class Villager extends Group {
     this.target = new Vector3(0, 0, 0);
 
     setInterval(() => {
-      this.beginAttack();
-      //this.beginCooperative();
+      if (this.markovChain) {
+        this.markovChain.transition();
+        this.activateState(this.markovChain.currentState);
+      }
     }, 6000);
 
     this.add(villager);
+  }
+
+  startSimulation(chain) {
+    this.markovChain = chain;
+    this.activateState(this.markovChain.currentState);
+  }
+
+  stopSimulation() {
+    this.stopWalkAnimation();
+    this.markovChain = null;
   }
 
   setTarget(target) {
@@ -38,6 +51,20 @@ class Villager extends Group {
     this.sword = sword;
     this.sword.visible = false;
     this.add(sword);
+  }
+
+  activateState(state) {
+    switch (parseInt(state)) {
+      case Constants.states.Cooperative:
+        this.beginCooperative();
+        break;
+      case Constants.states.Hostile:
+        this.beginHostile();
+        break;
+      case Constants.states.Engaged:
+        this.beginAttack();
+        break;
+    }
   }
 
   beginAttack() {

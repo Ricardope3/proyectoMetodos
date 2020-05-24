@@ -1,17 +1,33 @@
 <template>
   <div id="app">
-    <paint-canvas class="paint-canvas" />
-    <div class="ui-controls"><p>Hello UI</p></div>
+    <paint-canvas class="paint-canvas" ref="paintCanvas" />
+    <UIControls
+      class="ui-controls"
+      @start-simulation="startSimulation"
+      @stop-simulation="stopSimulation"
+    />
   </div>
 </template>
 
 <script>
 import PaintCanvas from './components/PaintCanvas';
+import UIControls from './components/UIControls';
 
 export default {
   name: 'App',
   components: {
-    PaintCanvas
+    PaintCanvas,
+    UIControls
+  },
+
+  methods: {
+    startSimulation(chains) {
+      this.$refs.paintCanvas.startSimulation(chains);
+    },
+
+    stopSimulation() {
+      this.$refs.paintCanvas.stopSimulation();
+    }
   }
 };
 </script>
