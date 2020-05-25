@@ -18,19 +18,19 @@ avgSHA = 0
 avgSHB = 0
 avgXAB = 0
 avgXBA = 0
-totalPeriods = 0
+# totalPeriods = 0
 
 for index, row in df.iterrows():
     SHA = float(row['SHA'])
     SHB = float(row['SHB'])
     XAB = float(row['XAB'])
     XBA = float(row['XBA'])
-    periods = int(row['PERIODS'])
+    # periods = int(row['PERIODS'])
     avgSHA += SHA
     avgSHB += SHB
     avgXAB += XAB
     avgXBA += XBA
-    totalPeriods += periods
+    # totalPeriods += periods
 
 
 # print("Average SHA: ", avgSHA/SIMULACIONES)
@@ -39,4 +39,4 @@ for index, row in df.iterrows():
 # print("Average XBA: ", avgXBA/SIMULACIONES)
 # print("Total periods: ", totalPeriods)
 
-print( avgSHA/SIMULACIONES, avgSHB/SIMULACIONES,avgXAB/SIMULACIONES,avgXBA/SIMULACIONES,totalPeriods)
+print( avgSHA/SIMULACIONES, avgSHB/SIMULACIONES,avgXAB/SIMULACIONES,avgXBA/SIMULACIONES)

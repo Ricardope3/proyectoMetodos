@@ -3,12 +3,12 @@ import math
 import random
 import matplotlib.pyplot as plt
 
-GAMMA = 0.99
+GAMMA = 0.95
 PERIODS = 1000
 MEAN = 0.04
 STDV = MEAN/2
 CASE = 0
-MEANA = 0.04
+MEANA = 0.06
 MEANB = 0.04
 
 
@@ -57,9 +57,9 @@ def PHX(prevPHA, prevXBA, GDX):
 def XXY(PHX):
     r = random.random()
     if(r > PHX):
-        return 0
-    elif(r < PHX):
         return 1
+    elif(r < PHX):
+        return 0
     return 0
 
 
@@ -68,7 +68,7 @@ def SHX(prevSHX, PHX, gamma):
 
 
 def getOutputs():
-    print("SHA SHB XAB XBA")
+    # print("SHA SHB XAB XBA")
     prevDIA = 0.1
     prevDIB = 0.1
     prevPHA = 0.1
@@ -78,10 +78,10 @@ def getOutputs():
     prevSHA = 0.1
     prevSHB = 0.1
 
-    # avgSHA = 0
-    # avgSHB = 0
-    # avgXAB = 0
-    # avgXBA = 0
+    avgSHA = 0
+    avgSHB = 0
+    avgXAB = 0
+    avgXBA = 0
 
     # totalXAB = 0
     # totalXBA = 0
@@ -110,19 +110,19 @@ def getOutputs():
         SHA = SHX(prevSHA, PHA, GAMMA)
         SHB = SHX(prevSHB, PHB, GAMMA)
 
-        print(SHA,SHB,XAB,XBA)
+        # print(SHA,SHB,XAB,XBA)
 
 
-        # avgSHA += SHA
-        # avgSHB += SHB
-        # totalXAB += XAB
-        # totalXBA += XBA
+        avgSHA += SHA
+        avgSHB += SHB
+        avgXAB += XAB
+        avgXBA += XBA
 
         if(DIApercent < 0.01):
-            # print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i, i)
+            print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i)
             break
         if(DIBpercent < 0.01):
-            # print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i, i)
+            print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i)
             break
 
 
