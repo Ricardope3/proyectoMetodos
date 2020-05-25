@@ -50,11 +50,15 @@ function generateMarkovChain(data, outputFile) {
     .map((row) => row.join())
     .join("\n")}`;
 
-  fs.writeFile(path.join(__dirname, outputFile), encodedMarkovChain, (err) => {
-    if (err)
-      return console.error("Error while writing to markov chain document");
-    console.log(`Markov chain document ${outputFile} created succesfully`);
-  });
+  fs.writeFile(
+    path.join(__dirname, `simulation/src/markov-chains/${outputFile}`),
+    encodedMarkovChain,
+    (err) => {
+      if (err)
+        return console.error("Error while writing to markov chain document");
+      console.log(`Markov chain document ${outputFile} created succesfully`);
+    }
+  );
 }
 
 fs.readFile(path.join(__dirname, "observacionesA.csv"), "utf8", (err, data) => {
