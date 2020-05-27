@@ -50,7 +50,6 @@ def PHX(prevPHA, prevXBA, GDX):
         beta = weights[1]
         delta = weights[2]
         res = alpha*prevPHA + beta*prevXBA + delta*GDX
-    # res = 0.33*prevPHA + 0.33*prevXBA + 0.33*GDX
     return res
 
 
@@ -68,7 +67,7 @@ def SHX(prevSHX, PHX, gamma):
 
 
 def getOutputs():
-    # print("SHA SHB XAB XBA")
+    print("SHA SHB XAB XBA")
     prevDIA = 0.1
     prevDIB = 0.1
     prevPHA = 0.1
@@ -110,7 +109,7 @@ def getOutputs():
         SHA = SHX(prevSHA, PHA, GAMMA)
         SHB = SHX(prevSHB, PHB, GAMMA)
 
-        # print(SHA,SHB,XAB,XBA)
+        print(SHA,SHB,XAB,XBA)
 
 
         avgSHA += SHA
@@ -119,10 +118,10 @@ def getOutputs():
         avgXBA += XBA
 
         if(DIApercent < 0.01):
-            print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i)
+            # print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i)
             break
         if(DIBpercent < 0.01):
-            print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i)
+            # print(avgSHA/i, avgSHB/i, avgXAB/i, avgXBA/i)
             break
 
 

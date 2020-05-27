@@ -4,14 +4,12 @@
 
 - `python3 modelo.py > output.csv`
 
-## Generar Observaciones
-
-### Grupo A
-- `python3 observacionesA.py > observacionesA.csv`
-
-### Grupo B
-- `python3 observacionesB.py > observacionesB.csv`
-
 ## Hacer 100 simulaciones
 
 - `python3 generarSimulaciones.py`
+
+## Generar averages
+
+- Comentar lineas 70 y 112 de `modelo.py`
+- Descomentar lineas 121 y 124 `modelo.py`
+- `python3 generarAverages.py` > `outpuFile`
